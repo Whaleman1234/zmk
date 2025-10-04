@@ -8,7 +8,7 @@
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 // -------- PARAMETERS --------
-#define NUM_KEYS 61   // set this to the number of physical keys your board has
+#define NUM_KEYS 42   // set this to the number of physical keys your board has
 #define WARMUP 500
 #define MIN_KEY_COUNT 5
 #define GAMMA 1.5f
