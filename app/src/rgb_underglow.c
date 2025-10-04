@@ -81,23 +81,23 @@ static uint32_t key_counts[NUM_KEYS] = {0};
 static const uint8_t key_to_led[NUM_KEYS] = {
     // Left half (positions 0-20) - mirrored pattern
     // Top row (positions 0-5)
-    18, 17, 11, 12, 4, 3,
+    21, 22, 23, 24, 25, 26,
     // Middle row (positions 6-11)
-    19, 16, 10, 13, 5, 2,
+    27, 28, 29, 30, 31, 32,
     // Bottom row (positions 12-17)
-    20, 14, 6, 9, 15, 1,
+    33, 34, 35, 36, 37, 38,
     // Thumbs (positions 18-20: inner/middle/outer)
-    8, 7, 0,
+    39, 40, 41,
     
     // Right half (positions 21-41)
     // Top row (positions 21-26: Y U I O P [)
-    3, 4, 11, 12, 17, 18,
+    5, 4, 3, 2, 1, 0,
     // Middle row (positions 27-32: H J K L ; ')
-    2, 5, 10, 13, 16, 19,
+    11, 10, 9, 8, 7, 6,
     // Bottom row (positions 33-38: N M , . / ?)
-    1, 6, 9, 14, 15, 20,
+    17, 16, 15, 14, 13, 12,
     // Thumbs (positions 39-41: left/middle/right)
-    0, 7, 8
+    20, 19, 18
 };
 
 static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
