@@ -299,15 +299,15 @@ static int zmk_rgb_underglow_init(void) {
 #endif
 
     state = (struct rgb_underglow_state){
-        color = {
-            h = CONFIG_ZMK_RGB_UNDERGLOW_HUE_START,
-            s = CONFIG_ZMK_RGB_UNDERGLOW_SAT_START,
-            b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_START,
+        .color = {
+            .h = CONFIG_ZMK_RGB_UNDERGLOW_HUE_START,
+            .s = CONFIG_ZMK_RGB_UNDERGLOW_SAT_START,
+            .b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_START,
         },
-        animation_speed = CONFIG_ZMK_RGB_UNDERGLOW_SPD_START,
-        current_effect = CONFIG_ZMK_RGB_UNDERGLOW_EFF_START,
-        animation_step = 0,
-        on = IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_ON_START)
+        .animation_speed = CONFIG_ZMK_RGB_UNDERGLOW_SPD_START,
+        .current_effect = CONFIG_ZMK_RGB_UNDERGLOW_EFF_START,
+        .animation_step = 0,
+        .on = IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_ON_START)
     };
 
 #if IS_ENABLED(CONFIG_SETTINGS)
