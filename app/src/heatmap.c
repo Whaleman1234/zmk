@@ -8,6 +8,20 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
+// Key-to-LED index mapping for Corne MX v3.0.1 (42 keys)
+// Left half: keys 0–20
+// Right half: keys 21–41
+// Adjust if your firmware has a different LED wiring order
+static const uint8_t key_to_led[NUM_KEYS] = {
+     0,  1,  2,  3,  4,  5,  6,  // Row 1 left
+     7,  8,  9, 10, 11, 12, 13,  // Row 2 left
+    14, 15, 16, 17, 18, 19, 20,  // Row 3 left
+
+    21, 22, 23, 24, 25, 26, 27,  // Row 1 right
+    28, 29, 30, 31, 32, 33, 34,  // Row 2 right
+    35, 36, 37, 38, 39, 40, 41   // Row 3 right
+};
+
 // -------- PARAMETERS --------
 #define NUM_KEYS 42   // Corne has 42 physical keys
 #define WARMUP 500    // presses before heatmap fully "activates"
@@ -70,7 +84,7 @@ static void heatmap_update_colors(void) {
 
         // Apply color to the LED mapped to key i
         // (You may need to define zmk_rgb_set_key_color() → wrapper for underglow or per-key)
-        zmk_rgb_set_key_color(i, &rgb);
+        zmk_rgb_set_key_color(key_to_led[i], &rgb);
     }
 
     // Push updates to the LEDs
