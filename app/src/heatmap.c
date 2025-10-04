@@ -7,6 +7,7 @@
 #include <zmk/rgb_underglow.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/drivers/led_strip.h>
+#include <zmk/rgb.h>
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
