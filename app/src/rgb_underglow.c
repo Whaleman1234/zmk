@@ -51,6 +51,7 @@ enum rgb_underglow_effect {
     UNDERGLOW_EFFECT_SPECTRUM,
     UNDERGLOW_EFFECT_SWIRL,
     UNDERGLOW_EFFECT_HEATMAP,
+    UNDERGLOW_EFFECT_LED_TEST,
     UNDERGLOW_EFFECT_NUMBER // Used to track number of underglow effects
 };
 
@@ -230,6 +231,37 @@ static void zmk_rgb_underglow_effect_heatmap(void) {
     }
 }
 
+static void zmk_rgb_underglow_effect_led_test(void) {
+    // Flash each LED in sequence to help identify LED positions
+    // Each LED flashes 3 times over 1 second, then moves to next
+    
+    #define FRAMES_PER_LED 20  // 1 second per LED at 50ms per frame
+    #define FLASHES_PER_LED 3
+    #define FRAMES_PER_FLASH (FRAMES_PER_LED / (FLASHES_PER_LED * 2))
+    
+    uint16_t current_led = state.animation_step / FRAMES_PER_LED;
+    uint16_t frame_in_led = state.animation_step % FRAMES_PER_LED;
+    uint16_t flash_frame = frame_in_led % FRAMES_PER_FLASH;
+    bool led_on = (flash_frame < (FRAMES_PER_FLASH / 2));
+    
+    // Turn off all LEDs
+    for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
+        pixels[i] = (struct led_rgb){r : 0, g : 0, b : 0};
+    }
+    
+    // Light up current LED if in "on" part of flash cycle
+    if (current_led < STRIP_NUM_PIXELS && led_on) {
+        pixels[current_led] = (struct led_rgb){r : 255, g : 255, b : 255};  // White
+    }
+    
+    state.animation_step++;
+    
+    // Reset after cycling through all LEDs
+    if (current_led >= STRIP_NUM_PIXELS) {
+        state.animation_step = 0;
+    }
+}
+
 static void zmk_rgb_underglow_tick(struct k_work *work) {
     switch (state.current_effect) {
     case UNDERGLOW_EFFECT_SOLID:
@@ -246,6 +278,9 @@ static void zmk_rgb_underglow_tick(struct k_work *work) {
         break;
     case UNDERGLOW_EFFECT_HEATMAP:
         zmk_rgb_underglow_effect_heatmap();
+        break;
+    case UNDERGLOW_EFFECT_LED_TEST:
+        zmk_rgb_underglow_effect_led_test();
         break;
     }
 
