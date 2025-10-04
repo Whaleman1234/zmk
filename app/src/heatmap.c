@@ -93,10 +93,13 @@ void zmk_rgb_underglow_effect_heatmap(void) {
             .b = state_color.b
         };
 
-        pixels[led_index] = hsb_to_rgb(hsb);
+        struct led_rgb rgb = hsb_to_rgb(hsb);
+        zmk_rgb_underglow_set_pixel(led_index, rgb);
     }
+
+    zmk_rgb_underglow_update();
 }
- 
+
 // --- Listen for key presses ---
 static int heatmap_listener(const zmk_event_t *eh) {
     if (as_zmk_position_state_changed(eh)) {
