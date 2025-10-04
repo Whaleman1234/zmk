@@ -66,6 +66,21 @@ static struct led_rgb pixels[STRIP_NUM_PIXELS];
 
 static struct rgb_underglow_state state;
 
+#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_EXT_POWER)
+static const struct device *const ext_power = DEVICE_DT_GET(DT_INST(0, zmk_ext_power_generic));
+#endif
+
+static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
+    hsb.b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN +
+            (CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX - CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN) * hsb.b / BRT_MAX;
+    return hsb;
+}
+
+static struct zmk_led_hsb hsb_scale_zero_max(struct zmk_led_hsb hsb) {
+    hsb.b = hsb.b * CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX / BRT_MAX;
+    return hsb;
+}
+
 // --- Heatmap tracking state ---
 #define NUM_KEYS 42  // You might want to link this to your keyboard’s actual key count
 static uint32_t key_counts[NUM_KEYS] = {0};
@@ -79,19 +94,6 @@ static const uint8_t key_to_led[NUM_KEYS] = {
     28, 29, 30, 31, 32, 33, 34,
     35, 36, 37, 38, 39, 40, 41
 };
-
-// Scales the brightness (b) to be between CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN and CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX
-static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
-    hsb.b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN + 
-            (CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX - CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN) * hsb.b / BRT_MAX;
-    return hsb;
-}
-
-// Scales the brightness (b) to be between 0 and CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX
-static struct zmk_led_hsb hsb_scale_zero_max(struct zmk_led_hsb hsb) {
-    hsb.b = hsb.b * CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX / BRT_MAX;
-    return hsb;
-}
 
 // Convert hue/sat/brightness to RGB
 static struct led_rgb hsb_to_rgb(struct zmk_led_hsb hsb) {
@@ -235,10 +237,6 @@ static void zmk_rgb_underglow_tick(struct k_work *work) {
     case UNDERGLOW_EFFECT_HEATMAP:
         zmk_rgb_underglow_effect_heatmap();
         break;
-    default:
-        // fallback
-        zmk_rgb_underglow_effect_solid();
-        break;
     }
 
     int err = led_strip_update_rgb(led_strip, pixels, STRIP_NUM_PIXELS);
@@ -301,15 +299,15 @@ static int zmk_rgb_underglow_init(void) {
 #endif
 
     state = (struct rgb_underglow_state){
-        .color = {
-            .h = CONFIG_ZMK_RGB_UNDERGLOW_HUE_START,
-            .s = CONFIG_ZMK_RGB_UNDERGLOW_SAT_START,
-            .b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_START,
+        color = {
+            h = CONFIG_ZMK_RGB_UNDERGLOW_HUE_START,
+            s = CONFIG_ZMK_RGB_UNDERGLOW_SAT_START,
+            b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_START,
         },
-        .animation_speed = CONFIG_ZMK_RGB_UNDERGLOW_SPD_START,
-        .current_effect = CONFIG_ZMK_RGB_UNDERGLOW_EFF_START,
-        .animation_step = 0,
-        .on = IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_ON_START)
+        animation_speed = CONFIG_ZMK_RGB_UNDERGLOW_SPD_START,
+        current_effect = CONFIG_ZMK_RGB_UNDERGLOW_EFF_START,
+        animation_step = 0,
+        on = IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_ON_START)
     };
 
 #if IS_ENABLED(CONFIG_SETTINGS)
