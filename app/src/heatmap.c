@@ -8,7 +8,6 @@
 #include <zephyr/device.h>
 #include <zephyr/logging/log.h>
 #include <zmk/events/position_state_changed.h>
-#include <zmk/led_indicators.h>
 #include <zmk/rgb_underglow.h>
 #include "heatmap.h"
 
