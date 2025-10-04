@@ -1,10 +1,7 @@
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
 #pragma once
+
+#include <stdint.h>
+#include <stdbool.h>
 
 struct zmk_led_hsb {
     uint16_t h;
@@ -12,6 +9,19 @@ struct zmk_led_hsb {
     uint8_t b;
 };
 
+// Add these API functions:
+
+// Set color of a pixel by RGB struct
+struct led_rgb {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+};
+
+int zmk_rgb_underglow_set_pixel(uint8_t index, struct led_rgb color);
+int zmk_rgb_underglow_update(void);
+
+// Existing function declarations ...
 int zmk_rgb_underglow_toggle(void);
 int zmk_rgb_underglow_get_state(bool *state);
 int zmk_rgb_underglow_on(void);
