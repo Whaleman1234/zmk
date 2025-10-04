@@ -36,12 +36,6 @@ struct hsv_color {
     uint8_t v;   // Value: 0-100%
 };
 
-struct led_rgb {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-};
-
 // Converts HSV to RGB
 static void zmk_rgb_hsv_to_rgb(const struct hsv_color *hsv, struct led_rgb *rgb) {
     float hh, p, q, t, ff;
