@@ -18,6 +18,8 @@
 #include <drivers/ext_power.h>
 
 #include <zmk/rgb_underglow.h>
+#include <zmk/heatmap.h>
+
 
 #include <zmk/activity.h>
 #include <zmk/usb.h>
@@ -80,6 +82,8 @@ static struct zmk_led_hsb hsb_scale_zero_max(struct zmk_led_hsb hsb) {
     hsb.b = hsb.b * CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX / BRT_MAX;
     return hsb;
 }
+
+static struct zmk_led_hsb state_color;
 
 // --- Heatmap tracking state ---
 #define NUM_KEYS 42  // You might want to link this to your keyboard’s actual key count
@@ -237,6 +241,10 @@ static void zmk_rgb_underglow_tick(struct k_work *work) {
     case UNDERGLOW_EFFECT_HEATMAP:
         zmk_rgb_underglow_effect_heatmap();
         break;
+    default:
+      //fallback
+      zmk_rgb_underglow_effect_solid();
+      break;
     }
 
     int err = led_strip_update_rgb(led_strip, pixels, STRIP_NUM_PIXELS);
@@ -309,6 +317,9 @@ static int zmk_rgb_underglow_init(void) {
         .animation_step = 0,
         .on = IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_ON_START)
     };
+
+  state_color = state.color;
+
 
 #if IS_ENABLED(CONFIG_SETTINGS)
     k_work_init_delayable(&underglow_save_work, zmk_rgb_underglow_save_state_work);
@@ -418,6 +429,7 @@ int zmk_rgb_underglow_set_hsb(struct zmk_led_hsb color) {
         return -ENOTSUP;
     }
     state.color = color;
+    state_color = color;
     return 0;
 }
 
@@ -447,18 +459,21 @@ struct zmk_led_hsb zmk_rgb_underglow_calc_brt(int direction) {
 int zmk_rgb_underglow_change_hue(int direction) {
     if (!led_strip) return -ENODEV;
     state.color = zmk_rgb_underglow_calc_hue(direction);
+    state_color = state.color;
     return zmk_rgb_underglow_save_state();
 }
 
 int zmk_rgb_underglow_change_sat(int direction) {
     if (!led_strip) return -ENODEV;
     state.color = zmk_rgb_underglow_calc_sat(direction);
+    state_color = state.color;
     return zmk_rgb_underglow_save_state();
 }
 
 int zmk_rgb_underglow_change_brt(int direction) {
     if (!led_strip) return -ENODEV;
     state.color = zmk_rgb_underglow_calc_brt(direction);
+    state_color = state.color;
     return zmk_rgb_underglow_save_state();
 }
 
