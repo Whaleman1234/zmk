@@ -80,6 +80,19 @@ static const uint8_t key_to_led[NUM_KEYS] = {
     35, 36, 37, 38, 39, 40, 41
 };
 
+// Scales the brightness (b) to be between CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN and CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX
+static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
+    hsb.b = CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN + 
+            (CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX - CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN) * hsb.b / BRT_MAX;
+    return hsb;
+}
+
+// Scales the brightness (b) to be between 0 and CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX
+static struct zmk_led_hsb hsb_scale_zero_max(struct zmk_led_hsb hsb) {
+    hsb.b = hsb.b * CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX / BRT_MAX;
+    return hsb;
+}
+
 // Convert hue/sat/brightness to RGB
 static struct led_rgb hsb_to_rgb(struct zmk_led_hsb hsb) {
     float r = 0, g = 0, b = 0;
