@@ -454,7 +454,7 @@ struct zmk_led_hsb zmk_rgb_underglow_calc_hue(int direction) {
 struct zmk_led_hsb zmk_rgb_underglow_calc_sat(int direction) {
     struct zmk_led_hsb color = state.color;
 
-    int s = color.s + (direction * CONFIG_ZMK_RGB_UNDERVLOW_SAT_STEP);
+    int s = color.s + (direction * CONFIG_ZMK_RGB_UNDERGLOW_SAT_STEP);
     if (s < 0) {
         s = 0;
     } else if (s > SAT_MAX) {
