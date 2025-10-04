@@ -454,7 +454,7 @@ struct zmk_led_hsb zmk_rgb_underglow_calc_hue(int direction) {
 struct zmk_led_hsb zmk_rgb_underglow_calc_sat(int direction) {
     struct zmk_led_hsb color = state.color;
 
-    int s = color.s + (direction * CONFIG_ZMK_RGB_UNDERGLOW_SAT_STEP);
+    int s = color.s + (direction * CONFIG_ZMK_RGB_UNDERVLOW_SAT_STEP);
     if (s < 0) {
         s = 0;
     } else if (s > SAT_MAX) {
@@ -548,6 +548,7 @@ static int rgb_underglow_auto_state(bool target_wake_state) {
         return zmk_rgb_underglow_off();
     }
 }
+#endif
 
 static int rgb_underglow_event_listener(const zmk_event_t *eh) {
 
@@ -575,8 +576,6 @@ static int rgb_underglow_event_listener(const zmk_event_t *eh) {
 }
 
 ZMK_LISTENER(rgb_underglow, rgb_underglow_event_listener);
-#endif // IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE) ||
-       // IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_USB)
 
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE)
 ZMK_SUBSCRIPTION(rgb_underglow, zmk_activity_state_changed);
