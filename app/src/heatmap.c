@@ -6,6 +6,7 @@
 #include <zmk/events/position_state_changed.h>
 #include <zmk/rgb_underglow.h>
 #include <zephyr/logging/log.h>
+#include <zmk/led_indicator.h>  // Defines struct zmk_led_rgb
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -54,7 +55,7 @@ static void heatmap_update_colors(void) {
 
     for (int i = 0; i < NUM_KEYS; i++) {
         uint32_t c = key_counts[i];
-        struct rgb_color rgb;
+        struct zmk_led_rgb rgb;
 
         if (c < MIN_KEY_COUNT) {
             struct hsv_color hsv = { .h = HUE_BLUE, .s = 40, .v = 40 };
