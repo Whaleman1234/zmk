@@ -43,7 +43,6 @@ target_sources_ifdef(CONFIG_USB_DEVICE_STACK app PRIVATE src/events/usb_conn_sta
 target_sources(app PRIVATE src/behaviors/behavior_reset.c)
 target_sources_ifdef(CONFIG_ZMK_EXT_POWER app PRIVATE src/behaviors/behavior_ext_power.c)
 target_sources_ifdef(CONFIG_ZMK_BEHAVIOR_SOFT_OFF app PRIVATE src/behaviors/behavior_soft_off.c)
-target_sources(app PRIVATE src/heatmap.c)
 add_subdirectory_ifdef(CONFIG_ZMK_POINTING src/pointing/)
 if ((NOT CONFIG_ZMK_SPLIT) OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
   target_sources(app PRIVATE src/hid.c)
