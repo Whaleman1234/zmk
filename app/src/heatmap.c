@@ -7,7 +7,6 @@
 #include <zmk/rgb_underglow.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/drivers/led_strip.h>
-#include <zmk/rgb.h>
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -26,11 +25,78 @@ static const uint8_t key_to_led[NUM_KEYS] = {
      0,  1,  2,  3,  4,  5,  6,
      7,  8,  9, 10, 11, 12, 13,
     14, 15, 16, 17, 18, 19, 20,
-
     21, 22, 23, 24, 25, 26, 27,
     28, 29, 30, 31, 32, 33, 34,
     35, 36, 37, 38, 39, 40, 41
 };
+
+struct hsv_color {
+    uint16_t h;  // Hue: 0-360 degrees
+    uint8_t s;   // Saturation: 0-100%
+    uint8_t v;   // Value: 0-100%
+};
+
+struct led_rgb {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+};
+
+// Converts HSV to RGB
+static void zmk_rgb_hsv_to_rgb(const struct hsv_color *hsv, struct led_rgb *rgb) {
+    float hh, p, q, t, ff;
+    long i;
+    float h = (float) hsv->h;
+    float s = ((float) hsv->s) / 100.0f;
+    float v = ((float) hsv->v) / 100.0f;
+
+    if (s <= 0.0f) { // Achromatic (grey)
+        rgb->r = rgb->g = rgb->b = (uint8_t)(v * 255);
+        return;
+    }
+    hh = h;
+    if (hh >= 360.0f) hh = 0.0f;
+    hh /= 60.0f;
+    i = (long) hh;
+    ff = hh - i;
+    p = v * (1.0f - s);
+    q = v * (1.0f - (s * ff));
+    t = v * (1.0f - (s * (1.0f - ff)));
+
+    switch (i) {
+        case 0:
+            rgb->r = (uint8_t)(v * 255);
+            rgb->g = (uint8_t)(t * 255);
+            rgb->b = (uint8_t)(p * 255);
+            break;
+        case 1:
+            rgb->r = (uint8_t)(q * 255);
+            rgb->g = (uint8_t)(v * 255);
+            rgb->b = (uint8_t)(p * 255);
+            break;
+        case 2:
+            rgb->r = (uint8_t)(p * 255);
+            rgb->g = (uint8_t)(v * 255);
+            rgb->b = (uint8_t)(t * 255);
+            break;
+        case 3:
+            rgb->r = (uint8_t)(p * 255);
+            rgb->g = (uint8_t)(q * 255);
+            rgb->b = (uint8_t)(v * 255);
+            break;
+        case 4:
+            rgb->r = (uint8_t)(t * 255);
+            rgb->g = (uint8_t)(p * 255);
+            rgb->b = (uint8_t)(v * 255);
+            break;
+        case 5:
+        default:
+            rgb->r = (uint8_t)(v * 255);
+            rgb->g = (uint8_t)(p * 255);
+            rgb->b = (uint8_t)(q * 255);
+            break;
+    }
+}
 
 static inline float clampf(float v, float lo, float hi) {
     return v < lo ? lo : (v > hi ? hi : v);
