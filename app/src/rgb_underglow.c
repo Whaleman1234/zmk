@@ -79,12 +79,25 @@ static uint32_t key_counts[NUM_KEYS] = {0};
 
 // Map from key position index to LED index - adjust this for your specific keyboard layout
 static const uint8_t key_to_led[NUM_KEYS] = {
-    0, 1, 2, 3, 4, 5, 6,
-    7, 8, 9, 10, 11, 12, 13,
-    14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24, 25, 26, 27,
-    28, 29, 30, 31, 32, 33, 34,
-    35, 36, 37, 38, 39, 40, 41
+    // Left half (positions 0-20) - mirrored pattern
+    // Top row (positions 0-5)
+    18, 17, 11, 12, 4, 3,
+    // Middle row (positions 6-11)
+    19, 16, 10, 13, 5, 2,
+    // Bottom row (positions 12-17)
+    20, 14, 6, 9, 15, 1,
+    // Thumbs (positions 18-20: inner/middle/outer)
+    8, 7, 0,
+    
+    // Right half (positions 21-41)
+    // Top row (positions 21-26: Y U I O P [)
+    3, 4, 11, 12, 17, 18,
+    // Middle row (positions 27-32: H J K L ; ')
+    2, 5, 10, 13, 16, 19,
+    // Bottom row (positions 33-38: N M , . / ?)
+    1, 6, 9, 14, 15, 20,
+    // Thumbs (positions 39-41: left/middle/right)
+    0, 7, 8
 };
 
 static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
