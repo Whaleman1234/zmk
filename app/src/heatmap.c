@@ -17,7 +17,6 @@
 #define BRT_MAX 100
 
 extern struct zmk_led_hsb state_color;  // Defined in rgb_underglow.c
-extern struct led_rgb pixels[];         // Defined in rgb_underglow.c
 
 // Map key indices to LED indices (adjust as needed)
 static const uint8_t key_to_led[NUM_KEYS] = {
