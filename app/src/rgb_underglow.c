@@ -51,7 +51,7 @@ enum rgb_underglow_effect {
     UNDERGLOW_EFFECT_SPECTRUM,
     UNDERGLOW_EFFECT_SWIRL,
     UNDERGLOW_EFFECT_HEATMAP,
-    UNDERGLOW_EFFECT_LED_TEST,
+    UNDERGLOW_EFFECT_KEYPRESS_TEST,
     UNDERGLOW_EFFECT_NUMBER // Used to track number of underglow effects
 };
 
@@ -76,28 +76,16 @@ static const struct device *const ext_power = DEVICE_DT_GET(DT_INST(0, zmk_ext_p
 // Heatmap tracking - adjust NUM_KEYS to match your keyboard
 #define NUM_KEYS 42
 static uint32_t key_counts[NUM_KEYS] = {0};
+static int last_pressed_key = -1;
 
 // Map from key position index to LED index - adjust this for your specific keyboard layout
 static const uint8_t key_to_led[NUM_KEYS] = {
-    // Left half (positions 0-20) - mirrored pattern
-    // Top row (positions 0-5)
-    21, 22, 23, 24, 25, 26,
-    // Middle row (positions 6-11)
-    27, 28, 29, 30, 31, 32,
-    // Bottom row (positions 12-17)
-    33, 34, 35, 36, 37, 38,
-    // Thumbs (positions 18-20: inner/middle/outer)
-    39, 40, 41,
-    
-    // Right half (positions 21-41)
-    // Top row (positions 21-26: Y U I O P [)
-    5, 4, 3, 2, 1, 0,
-    // Middle row (positions 27-32: H J K L ; ')
-    11, 10, 9, 8, 7, 6,
-    // Bottom row (positions 33-38: N M , . / ?)
-    17, 16, 15, 14, 13, 12,
-    // Thumbs (positions 39-41: left/middle/right)
-    20, 19, 18
+    0, 1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12, 13,
+    14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23, 24, 25, 26, 27,
+    28, 29, 30, 31, 32, 33, 34,
+    35, 36, 37, 38, 39, 40, 41
 };
 
 static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
@@ -244,34 +232,18 @@ static void zmk_rgb_underglow_effect_heatmap(void) {
     }
 }
 
-static void zmk_rgb_underglow_effect_led_test(void) {
-    // Flash each LED in sequence to help identify LED positions
-    // Each LED flashes 3 times over 1 second, then moves to next
-    
-    #define FRAMES_PER_LED 20  // 1 second per LED at 50ms per frame
-    #define FLASHES_PER_LED 3
-    #define FRAMES_PER_FLASH (FRAMES_PER_LED / (FLASHES_PER_LED * 2))
-    
-    uint16_t current_led = state.animation_step / FRAMES_PER_LED;
-    uint16_t frame_in_led = state.animation_step % FRAMES_PER_LED;
-    uint16_t flash_frame = frame_in_led % FRAMES_PER_FLASH;
-    bool led_on = (flash_frame < (FRAMES_PER_FLASH / 2));
-    
+static void zmk_rgb_underglow_effect_keypress_test(void) {
     // Turn off all LEDs
     for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
         pixels[i] = (struct led_rgb){r : 0, g : 0, b : 0};
     }
     
-    // Light up current LED if in "on" part of flash cycle
-    if (current_led < STRIP_NUM_PIXELS && led_on) {
-        pixels[current_led] = (struct led_rgb){r : 255, g : 255, b : 255};  // White
-    }
-    
-    state.animation_step++;
-    
-    // Reset after cycling through all LEDs
-    if (current_led >= STRIP_NUM_PIXELS) {
-        state.animation_step = 0;
+    // Light up the most recently pressed key in white
+    if (last_pressed_key >= 0 && last_pressed_key < NUM_KEYS) {
+        uint8_t led_index = key_to_led[last_pressed_key];
+        if (led_index < STRIP_NUM_PIXELS) {
+            pixels[led_index] = (struct led_rgb){r : 255, g : 255, b : 255};
+        }
     }
 }
 
@@ -292,8 +264,8 @@ static void zmk_rgb_underglow_tick(struct k_work *work) {
     case UNDERGLOW_EFFECT_HEATMAP:
         zmk_rgb_underglow_effect_heatmap();
         break;
-    case UNDERGLOW_EFFECT_LED_TEST:
-        zmk_rgb_underglow_effect_led_test();
+    case UNDERGLOW_EFFECT_KEYPRESS_TEST:
+        zmk_rgb_underglow_effect_keypress_test();
         break;
     }
 
@@ -612,11 +584,12 @@ static int rgb_underglow_event_listener(const zmk_event_t *eh) {
     }
 #endif
 
-    // Track key presses for heatmap effect
+    // Track key presses for heatmap effect and keypress test
     if (as_zmk_position_state_changed(eh)) {
         const struct zmk_position_state_changed *ev = as_zmk_position_state_changed(eh);
         if (ev->state && ev->position < NUM_KEYS) {
             key_counts[ev->position]++;
+            last_pressed_key = ev->position;  // For keypress test mode
         }
     }
 
