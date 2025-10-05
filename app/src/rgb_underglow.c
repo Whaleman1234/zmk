@@ -78,14 +78,16 @@ static const struct device *const ext_power = DEVICE_DT_GET(DT_INST(0, zmk_ext_p
 static uint32_t key_counts[NUM_KEYS] = {0};
 static int last_pressed_key = -1;
 
-// Map from key position index to LED index - adjust this for your specific keyboard layout
-static const uint8_t key_to_led[NUM_KEYS] = {
-    0, 1, 2, 3, 4, 5, 6,
-    7, 8, 9, 10, 11, 12, 13,
-    14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24, 25, 26, 27,
-    28, 29, 30, 31, 32, 33, 34,
-    35, 36, 37, 38, 39, 40, 41
+// Temporary 1:1 mapping - we'll figure out the real mapping through testing
+static uint8_t key_to_led[NUM_KEYS] = {
+    0, 1, 2, 3, 4, 5,      // Left top row (positions 0-5)
+    6, 7, 8, 9, 10, 11,    // Left middle row (positions 6-11)
+    12, 13, 14, 15, 16, 17, // Left bottom row (positions 12-17)
+    18, 19, 20,            // Left thumbs (positions 18-20)
+    0, 1, 2, 3, 4, 5,      // Right top row (positions 21-26) - same LEDs as left
+    6, 7, 8, 9, 10, 11,    // Right middle row (positions 27-32)
+    12, 13, 14, 15, 16, 17, // Right bottom row (positions 33-38)
+    18, 19, 20             // Right thumbs (positions 39-41)
 };
 
 static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
