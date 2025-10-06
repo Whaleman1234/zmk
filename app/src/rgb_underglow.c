@@ -85,7 +85,7 @@ static uint8_t key_to_led[NUM_KEYS] = {
     12, 13, 14, 15, 16, 17, // Left bottom row (positions 12-17)
     18, 19, 20,            // Left thumbs (positions 18-20)
     0, 1, 2, 3, 4, 5,      // Right top row (positions 21-26) - same LEDs as left
-    6, 7, 8, 9, 10, 11,    // Right middle row (positions 27-32)
+    6, 7, 8, 52, 53, 54,    // Right middle row (positions 27-32)
     12, 13, 14, 15, 16, 17, // Right bottom row (positions 33-38)
     18, 19, 20             // Right thumbs (positions 39-41)
 };
