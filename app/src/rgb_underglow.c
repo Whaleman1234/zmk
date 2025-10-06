@@ -80,14 +80,14 @@ static int last_pressed_key = -1;
 
 // Temporary 1:1 mapping - we'll figure out the real mapping through testing
 static uint8_t key_to_led[NUM_KEYS] = {
-    47, 46, 45, 44, 43, 42,      // Right top row (positions 21-26) - same LEDs as left
-    47, 46, 45, 44, 43, 42,    // Right middle row (positions 27-32)
-    47, 46, 45, 44, 43, 42, // Right bottom row (positions 33-38)
-    10, 11, 12,             // Right thumbs (positions 39-41)
-    7, 8, 9, 10, 11, 12,      // Left top row (positions 0-5)
-    7, 8, 9, 10, 11, 12,    // Left middle row (positions 6-11)
-    7, 8, 9, 10, 11, 12, // Left bottom row (positions 12-17)
-    44, 43, 42            // Left thumbs (positions 18-20)
+    6, 7, 8, 9, 10, 11,      // Left top row (positions 21-26) - same LEDs as left
+    12, 13, 14, 15, 16, 17,    // Left middle row (positions 27-32)
+    18, 19, 20, 21, 22, 23, // Left bottom row (positions 33-38)
+    24, 25, 26,             // Left thumbs (positions 39-41)
+    6, 7, 8, 9, 10, 11,      // Right top row (positions 21-26) - same LEDs as left
+    12, 13, 14, 15, 16, 17,    // Right middle row (positions 27-32)
+    18, 19, 20, 21, 22, 23, // Right bottom row (positions 33-38)
+    24, 25, 26,            // Right thumbs (positions 18-20)
 };
 
 static struct zmk_led_hsb hsb_scale_min_max(struct zmk_led_hsb hsb) {
