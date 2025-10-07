@@ -24,6 +24,7 @@
         zephyr,display = &oled;
         zmk,kscan = &kscan0;
         zmk,physical-layout = &foostan_corne_6col_layout;
+		zmk,rgb-fx = &rgb_fx_root;
     };
 
     default_transform: keymap_transform_0 {
