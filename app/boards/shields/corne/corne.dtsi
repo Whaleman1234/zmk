@@ -77,20 +77,59 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
         drivers = <&led_strip>;
         chain-lengths = <54>;  // Or 27 if mirrored
 
-        key-pixels = <>;
-        //0 1 2 3 4 5       Left top row keys -> pixels 0-5
-        //6 7 8 9 10 11     Left middle row
-        //12 13 14 15 16 17  Left bottom row
-        //18 19 20          Left thumbs
-        //21 22 23 24 25 26  Right top row
-        //27 28 29 30 31 32  Right middle
-        //33 34 35 36 37 38  Right bottom
-        //39 40 41          Right thumbs
-
+        key-pixels = <
+        0 1 2 3 4 5        //Left top row keys -> pixels 0-5
+        6 7 8 9 10 11      //Left middle row
+        12 13 14 15 16 17  //Left bottom row
+        18 19 20           //Left thumbs
+        21 22 23 24 25 26  //Right top row
+        27 28 29 30 31 32  //Right middle
+        33 34 35 36 37 38  //Right bottom
+        39 40 41           //Right thumbs
+		>;
         pixels 
             = <&pixel 0 0>
-            , <&pixel 10 0> 
-            , <&pixel 20 0>
+            , <&pixel 0 1>
+            , <&pixel 0 2>
+            , <&pixel 0 3>
+            , <&pixel 0 4>
+            , <&pixel 0 5>
+            , <&pixel 0 6>
+            , <&pixel 0 7>
+            , <&pixel 0 8>
+            , <&pixel 0 9>
+            , <&pixel 0 10>
+            , <&pixel 0 11>
+            , <&pixel 0 12>
+            , <&pixel 0 13>
+            , <&pixel 0 14>
+            , <&pixel 0 15>
+            , <&pixel 0 16>
+            , <&pixel 0 17>
+            , <&pixel 0 18>
+            , <&pixel 0 19>
+            , <&pixel 0 20>
+            , <&pixel 0 21>
+            , <&pixel 0 22>
+            , <&pixel 0 23>
+            , <&pixel 0 24>
+            , <&pixel 0 25>
+            , <&pixel 0 26>
+            , <&pixel 0 27>
+            , <&pixel 0 28>
+            , <&pixel 0 29>
+            , <&pixel 0 30>
+            , <&pixel 0 31>
+            , <&pixel 0 32>
+            , <&pixel 0 33>
+            , <&pixel 0 34>
+            , <&pixel 0 35>
+            , <&pixel 0 36>
+            , <&pixel 0 37>
+            , <&pixel 0 38>
+            , <&pixel 0 39>
+            , <&pixel 0 40>
+            , <&pixel 0 41>
             ;  // ... continue for all LEDs
 
         root_animation: animation_100 {
@@ -118,7 +157,7 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
 			compatible = "zmk,rgb-fx-solid";
 			status = "okay";
 
-			pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24>;
+			pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41>;
 			colors = <HSL(187, 100, 59)>;
 		};
 
