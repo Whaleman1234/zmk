@@ -77,16 +77,16 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
         drivers = <&led_strip>;
         chain-lengths = <54>;  // Or 27 if mirrored
 
-        key-pixels = <
-        0 1 2 3 4 5        //Left top row keys -> pixels 0-5
-        6 7 8 9 10 11      //Left middle row
-        12 13 14 15 16 17  //Left bottom row
-        18 19 20           //Left thumbs
-        21 22 23 24 25 26  //Right top row
-        27 28 29 30 31 32  //Right middle
-        33 34 35 36 37 38  //Right bottom
-        39 40 41 42 43 44 45 46 47 48 49 50 51 52 53        //Right thumbs
-		>;
+        key-pixels = <>;
+        //0 1 2 3 4 5        Left top row keys -> pixels 0-5
+        //6 7 8 9 10 11      Left middle row
+        //12 13 14 15 16 17  Left bottom row
+        //18 19 20           Left thumbs
+        //21 22 23 24 25 26  Right top row
+        //27 28 29 30 31 32  Right middle
+        //33 34 35 36 37 38  Right bottom
+        //39 40 41 42 43 44 45 46 47 48 49 50 51 52 53        Right thumbs
+	
         pixels 
             = <&pixel 0 0>
             , <&pixel 0 1>
