@@ -95,28 +95,37 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
         pixels = <&pixel 0 0>, 
                  <&pixel 10 0>, 
                  <&pixel 20 0>;  // ... continue for all LEDs
-        // Define heatmap effect
-        heatmap_effect: heatmap_effect {
-            compatible = "zmk,rgb-fx-heatmap";
-            label = "HEATMAP";
+
+        root_animation: animation_100 {
+            compatible = "zmk,rgb-fx-compose";
+            status = "okay";
+
+            fx = <
+                &main_animations;  // Add other effects here too
+                &bt_indicator_1;
+            >;
+        };
+
+        main_animations: anumation_0 {
+            compatible = "zmk,rgb-fx-control-group";
+            status = "okay";
             
+            fx = <
+                &heatmap_effect
+            >; 
+        };
+
+        heatmap_effect: anumation_1{
+            compatible = "zmk,rgb-fx-heatmap";
+            status = "okay";
+            brightness-steps = <5>;
             pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
                       21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41>;
-            
             color-cold-hue = <240>;  // Blue for unused keys
             color-hot-hue = <0>;     // Red for most-used keys
             saturation = <100>;
             lightness = <50>;
             blending-mode = "normal";
-        };
-    
-        // Control group to manage effects
-        rgb_control: rgb_control_group {
-            compatible = "zmk,rgb-fx-control-group";
-            label = "RGB_CONTROL";
-            
-            fx = <&heatmap_effect>;  // Add other effects here too
-            brightness-steps = <5>;
         };
     };
 };
