@@ -19,6 +19,22 @@
     transform = <&five_column_transform>;
 };
 
+
+&spi3 {
+	//compatible = "nordic,nrf-spim";
+	//status = "okay";
+	
+	led_strip: ws2812@0 {
+		compatible = "worldsemi,ws2812-spi";
+		reg = <0>;
+		spi-max-frequency = <4000000>;
+		chain-length = <54>;
+		spi-one-frame = <0x70>;
+		spi-zero-frame = <0x40>;
+		color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+};
+};
+
 / {
     chosen {
         zephyr,display = &oled;
@@ -72,20 +88,6 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
             ;
 	};
 
-	&spi3 {
-    	//compatible = "nordic,nrf-spim";
-    	//status = "okay";
-    
-    	led_strip: ws2812@0 {
-	        compatible = "worldsemi,ws2812-spi";
-	        reg = <0>;
-	        spi-max-frequency = <4000000>;
-	        chain-length = <54>;
-	        spi-one-frame = <0x70>;
-	        spi-zero-frame = <0x40>;
-	        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
-    	};
-	};
 	rgb_fx_root:rgb-fx {
         compatible = "zmk,rgb-fx";
         drivers = <&led_strip>;
