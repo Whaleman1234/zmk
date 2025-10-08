@@ -54,7 +54,7 @@
         
         // Map right half keys (positions 21-41) to LOCAL LED indices 0-20
         // The right half sees keys 21-41, but we map them to local pixels 0-20
-        key-pixels = 
+        key-pixels = <
             0 1 2 3 4 5       // Keys 21-26 map to local pixels 0-5
             6 7 8 9 10 11     // Keys 27-32 map to local pixels 6-11
             12 13 14 15 16 17 // Keys 33-38 map to local pixels 12-17
