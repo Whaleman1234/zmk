@@ -86,7 +86,7 @@
 
     rgb_fx_root: rgb-fx {
         compatible = "zmk,rgb-fx";
-        drivers = <&ws2812_led_strip>;  // Reference the Zephyr WS2812 device
+        drivers = <&rgb_underglow>;  // Reference the Zephyr WS2812 device
         chain-lengths = <54>;  // Matches ws2812 chain-length
 
         key-pixels = <>;  // Empty for full-chain mapping
