@@ -49,7 +49,6 @@
 
     rgb_fx_root: rgb-fx {
         compatible = "zmk,rgb-fx";
-        label = "RGB_FX";
         drivers = <&led_strip>;
         chain-lengths = <27>;
         
@@ -75,7 +74,6 @@
     // Animation control group
     main_animations: rgb_control {
         compatible = "zmk,rgb-fx-control-group";
-        label = "RGB_CONTROL";
         
         fx = <&blue_solid &red_solid &white_solid &heatmap_effect>;
         brightness-steps = <5>;
@@ -84,28 +82,24 @@
     // Define your effects
     blue_solid: blue_solid {
         compatible = "zmk,rgb-fx-solid";
-        label = "BLUE";
         pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>;
         colors = <HSL(187, 100, 59)>;
     };
     
     red_solid: red_solid {
         compatible = "zmk,rgb-fx-solid";
-        label = "RED";
         pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>;
         colors = <HSL(354, 100, 59)>;
     };
     
     white_solid: white_solid {
         compatible = "zmk,rgb-fx-solid";
-        label = "WHITE";
         pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>;
         colors = <HSL(0, 0, 100)>;
     };
     
     heatmap_effect: heatmap {
         compatible = "zmk,rgb-fx-heatmap";
-        label = "HEATMAP";
         pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>;
         color-cold-hue = <240>;
         color-hot-hue = <0>;
