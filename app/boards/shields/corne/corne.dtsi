@@ -26,7 +26,7 @@
         zephyr,display = &oled;
         zmk,kscan = &kscan0;
         zmk,physical-layout = &foostan_corne_6col_layout;
-        zmk,rgb-fx = &rgb_fx_root;
+        //zmk,rgb-fx = &rgb_fx_root;
     };
 
     // Zephyr WS2812 GPIO LED Strip (bit-bang - single data pin)
@@ -85,7 +85,7 @@
                     <&pro_micro 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 
-    rgb_fx_root: rgb-fx {
+    rgb-fx {
         compatible = "zmk,rgb-fx";
         drivers = <&rgb_underglow>;  // Reference the Zephyr WS2812 device
         chain-lengths = <54>;  // Matches ws2812 chain-length
