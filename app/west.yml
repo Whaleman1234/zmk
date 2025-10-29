@@ -4,8 +4,6 @@ manifest:
       url-base: https://github.com/zephyrproject-rtos
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: Whaleman1234
-      url-base: https://github.com/Whaleman1234
   projects:
     - name: zephyr
       remote: zmkfirmware
@@ -39,8 +37,5 @@ manifest:
       revision: 6cb4c283e76209d59c45fbcb218800cd19e9339d
       path: modules/msgs/zmk-studio-messages
       remote: zmkfirmware
-    - name: zmk-rgb-fx
-      remote: Whaleman1234
-      revision: main
   self:
     west-commands: scripts/west-commands.yml
