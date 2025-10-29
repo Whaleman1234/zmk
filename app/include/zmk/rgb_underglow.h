@@ -6,9 +6,6 @@
 
 #pragma once
 
-#include <stdint.h>
-#include <stdbool.h>
-
 struct zmk_led_hsb {
     uint16_t h;
     uint8_t s;
